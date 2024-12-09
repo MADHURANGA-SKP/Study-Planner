@@ -14,13 +14,14 @@ export default function App() {
       <Provider theme={theme}> 
         <Stack.Navigator
           initialRouteName="LoginScreen"
-          options={{ headerShown: false }}
+          options={{ headerShown: false}}
+          
         >
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="AddNoteScreen" component={AddNoteScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="AddNoteScreen" component={AddNoteScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-        <Stack.Screen name="ViewNoteScreen" component={ViewNoteScreen} />
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="ViewNoteScreen" component={ViewNoteScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
       </Provider>
     </AppProvider>

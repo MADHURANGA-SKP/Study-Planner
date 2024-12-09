@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useAppContext } from "../context/AppContext";
 import { validateNote } from "../helpers/validation";
 
 export default function AddNoteScreen({ navigation }) {
-  const { addNote } = useAppContext() || {};  // Provide fallback if context is undefined
+  const { addNote } = useAppContext() || {};  
   if (!addNote) {
     console.log("addNote function is not available");
   }
@@ -48,7 +48,23 @@ export default function AddNoteScreen({ navigation }) {
       />
       {errors.content && <Text style={styles.error}>{errors.content}</Text>}
 
-        <Button title="Save Note" onPress={handleSubmit} color='green' />
+      <View style={styles.btnwrap}>
+        <TouchableOpacity
+          style={styles.customButton1}
+          onPress={handleSubmit} 
+        >
+          <Text style={styles.buttonText}>Save Note</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.btnwrap}>
+        <TouchableOpacity
+          style={styles.customButton2}
+          onPress={() => navigation.navigate("HomeScreen")}  
+        >
+          <Text style={styles.buttonText}>Back to Home</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -59,4 +75,26 @@ const styles = StyleSheet.create({
   input: { borderWidth: 1, padding: 10, marginBottom: 10, borderRadius: 5 },
   textArea: { height: 100, textAlignVertical: "top" },
   error: { color: "red", marginBottom: 10 },
+  btnwrap: {marginBottom: 10,marginTop: 10,},
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  customButton1: {
+    backgroundColor: "#83ab6c",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    alignItems: "center",
+  },
+  customButton2: {
+    backgroundColor: "gray",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    alignItems: "center",
+    flex: 1, 
+    marginHorizontal: 5,
+  },
 });

@@ -5,8 +5,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   // // Sample users
   const [users, setUsers] = useState([
-    { username: "JohnDoe", email: "john@example.com", password: "12345" },
-    { username: "JaneDoe", email: "jane@example.com", password: "password" },
+    { username: "pasan@123", email: "john@example.com", password: "12345", name : "Pasan Madhuranga" },
   ]);
 
   // Logged-in user
