@@ -1,68 +1,61 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  // // Sample users
-  const [users, setUsers] = useState([
-    { username: "pasan@123", email: "john@example.com", password: "12345", name : "Pasan Madhuranga" },
+  const [data, setData] = useState([
+    // Sample data structure
+    { id: 1, type: 'class', date: '2024-12-13', title: 'Math Lecture' },
+    { id: 2, type: 'exam', date: '2024-12-15', title: 'Physics Exam' },
+    { id: 3, type: 'task', date: '2024-12-13', title: 'Complete Homework' },
   ]);
 
-  // Logged-in user
-  const [user, setUser] = useState(null);
+  // Add new item to data
+  const addData = (newItem) => {
+    setData((prevData) => [...prevData, { id: Date.now(), ...newItem }]);
+  };
 
-  // Notes
-  const [notes, setNotes] = useState([]);
+  // Edit an existing item
+  const editData = (id, updatedItem) => {
+    setData((prevData) =>
+      prevData.map((item) => (item.id === id ? { ...item, ...updatedItem } : item))
+    );
+  };
 
-  // Login user
-  const login = (username, password) => {
-    const existingUser = users.find((u) => u.username === username && u.password === password);
-    if (existingUser) {
-      setUser(existingUser);
-      return true; // Success
+  // Delete an item
+  const deleteData = (id) => {
+    setData((prevData) => prevData.filter((item) => item.id !== id));
+  };
+
+  const [reminderTime, setReminderTime] = useState('09:00 AM');
+  const loadReminderTime = async () => {
+    try {
+      const savedTime = await AsyncStorage.getItem('reminderTime');
+      if (savedTime) setReminderTime(savedTime);
+    } catch (error) {
+      console.error('Error loading reminder time:', error);
     }
-    return false; // Failure
   };
 
-  
-  // Register user
-  const register = (newUser) => {
-    const exists = users.some((u) => u.username === newUser.username || u.email === newUser.email);
-    if (!exists) {
-      setUsers((prev) => [...prev, newUser]);
-      return true;
+  const saveReminderTime = async (time) => {
+    try {
+      await AsyncStorage.setItem('reminderTime', time);
+      setReminderTime(time);
+    } catch (error) {
+      console.error('Error saving reminder time:', error);
     }
-    return false;
   };
 
-  const logout  = () => setUser(null)
-  
-  // Add note
-  const addNote = (note) => {
-    setNotes((prevNotes) => [...prevNotes, note]);
-  };
-
-  // Remove note
-  const removeNote = (noteId) => {
-    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
-  };
-
+  useEffect(() => {
+    loadReminderTime();
+  }, []);
 
   return (
-    <AppContext.Provider 
-    value={{
-        user,
-        login,
-        logout,
-        register,
-        addNote,
-        removeNote,
-        notes,
-        setUser,
-        }}>
+  <AppContext.Provider value={{ data, addData, editData, deleteData, reminderTime, saveReminderTime }}>
       {children}
     </AppContext.Provider>
   );
-};
+}
 
 export const useAppContext = () => useContext(AppContext);

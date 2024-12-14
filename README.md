@@ -1,6 +1,4 @@
-# Welcome to Add_Note 👋
-
-This is a simple note application to store notes using React Native and Expo 
+# Welcome to Study_Planner 👋
 
 ## Preview
 ![Sample Image](./1.png)
@@ -12,3 +10,4 @@ This is a simple note application to store notes using React Native and Expo
 ![Sample Image](./7.png)
 ![Sample Image](./8.png)
 ![Sample Image](./9.png)
+
