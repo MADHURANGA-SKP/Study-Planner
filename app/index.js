@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { theme } from "./core/theme";
 import { AppProvider } from "./context/AppContext";
-import { CalendarScreen,CreateTaskScreen,TaskManagementScreen,EditTaskScreen,SettingsScreen} from "./screens";
+import { CalendarScreen,CreateTaskScreen,TaskManagementScreen,WelcomeScreen,EditTaskScreen,SettingsScreen} from "./screens";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -12,15 +12,16 @@ export default function App() {
     <AppProvider>
       <Provider theme={theme}> 
         <Stack.Navigator
-          initialRouteName="CalendarScreen"
+          initialRouteName="WelcomeScreen"
           options={{ headerShown: false}}
           
         >
-        <Stack.Screen name="CalendarScreen" component={CalendarScreen}/>
-        <Stack.Screen name="CreateTaskScreen" component={CreateTaskScreen}/>
-        <Stack.Screen name="EditTaskScreen" component={EditTaskScreen}/>
-        <Stack.Screen name="TaskManagementScreen" component={TaskManagementScreen}/>
-        <Stack.Screen name="SettingsScreen" component={SettingsScreen}/>
+        <Stack.Screen name="CalendarScreen" component={CalendarScreen}  options={{ headerShown: false }}/>
+        <Stack.Screen name="CreateTaskScreen" component={CreateTaskScreen}  options={{ headerShown: false }}/>
+        <Stack.Screen name="EditTaskScreen" component={EditTaskScreen}  options={{ headerShown: false }}/>
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}  options={{ headerShown: false }}/>
+        <Stack.Screen name="TaskManagementScreen" component={TaskManagementScreen}  options={{ headerShown: false }}/>
+        <Stack.Screen name="SettingsScreen" component={SettingsScreen}  options={{ headerShown: false }}/>
       </Stack.Navigator>
       </Provider>
     </AppProvider>

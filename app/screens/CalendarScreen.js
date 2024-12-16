@@ -1,5 +1,5 @@
 import React, {useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet,TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useAppContext } from '../context/AppContext';
 
@@ -19,45 +19,65 @@ export default function CalendarScreen({navigation}) {
             return acc;
           }, {}),
         }}
+        theme={{
+          backgroundColor: '#F9F4DC', // Overall calendar background
+          calendarBackground: '#FAE6A2',
+          textSectionTitleColor: '#9A82F6', // Month header text
+          selectedDayBackgroundColor: '#000000', // Selected day's background
+          selectedDayTextColor: 'white', // Selected day text
+          todayTextColor: '#000000', // Today's text color
+          dayTextColor: '#000000', // Default day text color
+          textDisabledColor: '#000000', // Disabled days (e.g., past days) text
+          dotColor: '#9A82F6', // Dots for marked dates
+          selectedDotColor: '#000000', // Dot color on selected day
+          arrowColor: '#9A82F6', // Calendar navigation arrow color
+          monthTextColor: '#000000', // Month name text color
+         
+        }}
+        style={{
+          borderRadius: 15,
+          marginVertical: 10,
+          padding: 5,
+          elevation: 3, // Shadow effect
+        }}
       />
       {selectedDate && (
-        <Button
-          title="Create Task"
-          onPress={() =>
-            navigation.navigate("CreateTaskScreen", { selectedDate })
-          }
-        />
+        <View style={styles.btnwrap}>
+            <TouchableOpacity
+            style={styles.customButton}
+            onPress={() => navigation.navigate("CreateTaskScreen", { selectedDate })}  
+            >
+            <Text style={styles.buttonText}>Create Task</Text>
+            </TouchableOpacity>
+        </View>
       )}
-      <Button
-        title="Go to Settings"
-        onPress={() => navigation.navigate('SettingsScreen')}
-      />
-      <Button 
-        title="Manage Tasks" 
-        onPress={() => navigation.navigate('TaskManagementScreen')} 
-      />
+      <View style={styles.btnwrap}>
+            <TouchableOpacity
+            style={styles.customButton}
+            onPress={() => navigation.navigate('SettingsScreen')}  
+            >
+            <Text style={styles.buttonText}>Go to Settings</Text>
+            </TouchableOpacity>
+      </View>
+      
+      <View style={styles.btnwrap}>
+            <TouchableOpacity
+            style={styles.customButton}
+            onPress={() => navigation.navigate('TaskManagementScreen')}  
+            >
+            <Text style={styles.buttonText}>Manage Tasks</Text>
+            </TouchableOpacity>
+      </View>
+
       <Text style={styles.dateTitle}>
-        Events for {selectedDate || 'Select a Date'}
+        Events for <Text style={styles.date}> {selectedDate || 'Select a Date'}</Text>
       </Text>
       <FlatList
         data={eventsForSelectedDate}
         renderItem={({ item }) => (
           <View style={styles.eventContainer}>
-            <Text style={styles.eventType}>[{item.type}]</Text>
+            <Text style={styles.eventType}>{item.type}</Text>
             <Text style={styles.eventTitle}>{item.title}</Text>
-            {/* <Button 
-              title="View" 
-              onPress={() => navigation.navigate('CalendarScreen', { task: item })} 
-            />
-            <Button 
-              title="Edit" 
-              onPress={() => editData(item.id, { title: 'Updated Task' })} 
-            />
-            <Button 
-              title="Delete" 
-              onPress={() => deleteData(item.id)} 
-              color="red" 
-            /> */}
           </View>
         )}
         keyExtractor={(item) => item.id.toString()}
@@ -83,8 +103,28 @@ const styles = StyleSheet.create({
   eventType: {
     fontWeight: 'bold',
     marginRight: 10,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
   eventTitle: {
     fontSize: 16,
+  },
+  btnwrap: {marginBottom: 10,marginTop: 10,},
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  date: {
+    color: "#9A82F6",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  customButton: {
+    backgroundColor: "#9A82F6",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    alignItems: "center",
   },
 });

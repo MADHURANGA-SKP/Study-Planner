@@ -1,5 +1,5 @@
 import React, {useState } from 'react';
-import { View, Text, FlatList, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TextInput, Button, StyleSheet,TouchableOpacity } from 'react-native';
 import { useAppContext } from '../context/AppContext';
 
 export default function TaskManagementScreen({navigation}) {
@@ -14,7 +14,16 @@ export default function TaskManagementScreen({navigation}) {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Task Management</Text>
+      <View style={styles.headerContainer}>
+          <TouchableOpacity
+            style={styles.BackButton}
+            onPress={() => navigation.navigate('CalendarScreen')}
+          >
+            <Text style={styles.buttonText}>Back</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.title}>Task Management</Text>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Enter Task"
@@ -27,17 +36,40 @@ export default function TaskManagementScreen({navigation}) {
         value={selectedDate}
         onChangeText={setSelectedDate}
       />
-      <Button title="Add Task" onPress={addTask} />
+
+      <View style={styles.btnwrap}>
+                <TouchableOpacity
+                  style={styles.CommonButton}
+                  onPress={addTask}
+                  >
+                <Text style={styles.buttonText}>Add Task</Text>
+                </TouchableOpacity>
+     </View>
+
       <FlatList
+        style={styles.flatlist}
         data={data.filter((item) => item.type === 'task')}
         renderItem={({ item }) => (
           <View style={styles.taskContainer}>
-            <Text>{item.date}: {item.title}</Text>
-            <Button 
-              title="Edit" 
-              onPress={() => navigation.navigate('EditTaskScreen', { task: item })} 
-            />
-            <Button title="Delete" onPress={() => deleteData(item.id)} color="red" />
+            <Text><Text style={styles.date}>{item.date}</Text>: {item.title}</Text>
+
+            <View style={styles.btnwrap}>
+                <TouchableOpacity
+                  style={styles.EditButton}
+                  onPress={() => navigation.navigate('EditTaskScreen', { task: item })}
+                  >
+                <Text style={styles.buttonText}>Edit</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.btnwrap}>
+                <TouchableOpacity
+                  style={styles.DeleteButton}
+                  onPress={() => deleteData(item.id)}
+                  >
+                <Text style={styles.buttonText}>Delete</Text>
+                </TouchableOpacity>
+            </View>
           </View>
         )}
         keyExtractor={(item) => item.id.toString()}
@@ -65,5 +97,51 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 5,
+  },
+  date: {
+    color: "#9A82F6",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  EditButton: {
+    backgroundColor: "#9A82F6",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 30,
+    alignItems: "center",
+  },
+  DeleteButton: {
+    backgroundColor: "red",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 30,
+    alignItems: "center",
+  },
+  flatlist: {
+    paddingVertical: 10
+  },
+  CommonButton: {
+    backgroundColor: "#9A82F6",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    alignItems: "center",
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10, 
+  },
+  BackButton: {
+    backgroundColor: '#9A82F6',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 5,
   },
 });

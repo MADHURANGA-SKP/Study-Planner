@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useAppContext } from '../context/AppContext';
 
-export default function SettingsScreen() {
+export default function SettingsScreen({navigation}) {
   const { reminderTime, saveReminderTime } = useAppContext();
   const [localReminderTime, setLocalReminderTime] = useState(reminderTime);
   // Update local state when context changes
   useEffect(() => {
     setLocalReminderTime(reminderTime);
   }, [reminderTime]);
+
   const handleSave = () => {
     saveReminderTime(localReminderTime);
     alert(`Reminder time saved: ${localReminderTime}`);
+    navigation.navigate('CalendarScreen')
   };
   return (
     <View style={styles.container}>
@@ -22,7 +24,14 @@ export default function SettingsScreen() {
         value={localReminderTime}
         onChangeText={setLocalReminderTime}
       />
-      <Button title="Save Reminder Time" onPress={handleSave} />
+      <View style={styles.btnwrap}>
+                <TouchableOpacity
+                style={styles.customButton}
+                onPress={handleSave}
+                >
+                <Text style={styles.buttonText}>Save Reminder Time</Text>
+            </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -42,5 +51,18 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     borderRadius: 5,
+  },
+  btnwrap: {marginBottom: 10,marginTop: 10,},
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  customButton: {
+    backgroundColor: "#9A82F6",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    alignItems: "center",
   },
 });
