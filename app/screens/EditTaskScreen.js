@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 10,
+    borderRadius: 30
   },
   btnwrap: {marginBottom: 10,marginTop: 10,},
   buttonText: {
